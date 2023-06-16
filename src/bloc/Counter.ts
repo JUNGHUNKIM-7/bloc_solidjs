@@ -10,7 +10,7 @@ class State {
     constructor(public status: States, public value: number) { }
 }
 
-class Event { }
+export class Event { }
 
 export class IncrementEvent extends Event {
     constructor(private value: number) {

@@ -1,25 +1,30 @@
 import { Match, Switch } from "solid-js"
-import CounterBloc, { DecrementEvent, IncrementEvent, States } from "../bloc/Counter"
+import CounterBloc, { DecrementEvent, IncrementEvent, States, Event } from "../bloc/Counter"
 
 export default function Test() {
+    const s = CounterBloc.getter
+    const e = (e: Event) => CounterBloc.eventSink(e)
+
+
     return (
         <>
             <Switch fallback={ <div>no State</div> }>
-                <Match when={ CounterBloc.getter.status == States.Added }>state: added</Match>
-                <Match when={ CounterBloc.getter.status == States.Substract }>state: substracted</Match>
+                <Match when={ s.status == States.Added }>state: added</Match>
+                <Match when={ s.status == States.Substract }>state: substracted</Match>
             </Switch>
-            <div>{ CounterBloc.getter.value }</div>
+            <div>{ s.value }</div>
+
             <div>
-                <button onClick={ () => CounterBloc.eventSink(new IncrementEvent(1)) }>+</button>
+                <button onClick={ () => e(new IncrementEvent(1)) }>+</button>
             </div>
             <div>
-                <button onClick={ () => CounterBloc.eventSink(new IncrementEvent(1)) }>+</button>
+                <button onClick={ () => e(new IncrementEvent(1)) }>+</button>
             </div>
             <div>
-                <button onClick={ () => CounterBloc.eventSink(new DecrementEvent(1)) }>-</button>
+                <button onClick={ () => e(new DecrementEvent(1)) }>-</button>
             </div>
             <div>
-                <button onClick={ () => CounterBloc.eventSink(new DecrementEvent(1)) }>-</button>
+                <button onClick={ () => e(new DecrementEvent(1)) }>-</button>
             </div>
         </>
     )
