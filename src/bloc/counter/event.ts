@@ -1,5 +1,5 @@
 import { setState, state } from "./bloc"
-import { CounterState, Status } from "./state"
+import { CounterState, CounterStatus } from "./state"
 
 export class CounterEvent { }
 
@@ -9,7 +9,7 @@ export class IncrementEvent extends CounterEvent {
     }
 
     increment() {
-        setState(CounterState.copyWith(Status.Added, state().counterValue + this.counterValue))
+        setState(CounterState.copyWith(CounterStatus.Added, state().counterValue + this.counterValue))
     }
 }
 
@@ -19,6 +19,6 @@ export class DecrementEvent extends CounterEvent {
     }
 
     decrement() {
-        setState(CounterState.copyWith(Status.Substract, state().counterValue - this.counterValue))
+        setState(CounterState.copyWith(CounterStatus.Substract, state().counterValue - this.counterValue))
     }
 }

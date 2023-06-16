@@ -1,15 +1,15 @@
 import { state } from "./bloc"
 
-export enum Status {
+export enum CounterStatus {
     Initial,
     Added,
     Substract
 }
 
 export class CounterState {
-    constructor(public status: Status, public counterValue: number) { }
+    constructor(public status: CounterStatus, public counterValue: number) { }
 
-    static copyWith(status?: Status, value?: number): CounterState {
+    static copyWith(status?: CounterStatus, value?: number): CounterState {
         return new CounterState(status ?? state().status, value ?? state().counterValue)
     }
 

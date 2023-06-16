@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
-import { CounterState, Status } from "./state";
+import { CounterState, CounterStatus } from "./state";
 import { IncrementEvent, DecrementEvent, CounterEvent } from "./event";
 
-export const [state, setState] = createSignal<CounterState>(new CounterState(Status.Initial, 0))
+export const [state, setState] = createSignal<CounterState>(new CounterState(CounterStatus.Initial, 0))
 export const [event, setEvent] = createSignal<CounterEvent | null>(null)
 
 export default class CounterBloc {
