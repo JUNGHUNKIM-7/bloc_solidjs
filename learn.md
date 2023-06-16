@@ -1,3 +1,14 @@
+```ts
+export interface Wrapper {
+    children: JSXElement
+}
+
+export interface TestProps extends Wrapper {
+    title: string
+    age: number
+}
+
+```
 ```
 mutable list- for. i() - index subscribed list.
 
