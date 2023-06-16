@@ -1,3 +1,17 @@
+```
+mutable list- for. i() - index subscribed list.
+
+Can combine signal with property in store.
+
+SetStore(primitive / function, key, value)
+
+claaList={{ prop: signal() }}
+
+const [Data] = CreateResource(getter - fn type not invoke, fetcher)
+Data.loading : bool
+Concept: Fetch + createEffect
+```
+
 # prop destructing 금지
 - use mergeProps, separateProps
 - use children(() => props.children)

@@ -1,5 +1,5 @@
 import { Match, Switch } from "solid-js"
-import CounterBloc, { DecrementEvent, IncrementEvent, States } from "./Test4"
+import CounterBloc, { DecrementEvent, IncrementEvent, States } from "../bloc/Counter"
 
 export default function Test() {
     return (
@@ -10,10 +10,16 @@ export default function Test() {
             </Switch>
             <div>{ CounterBloc.getter.value }</div>
             <div>
-                <button onClick={ () => CounterBloc.eventSink(new IncrementEvent(1)) }>dec</button>
+                <button onClick={ () => CounterBloc.eventSink(new IncrementEvent(1)) }>+</button>
             </div>
             <div>
-                <button onClick={ () => CounterBloc.eventSink(new DecrementEvent(1)) }>inc</button>
+                <button onClick={ () => CounterBloc.eventSink(new IncrementEvent(1)) }>+</button>
+            </div>
+            <div>
+                <button onClick={ () => CounterBloc.eventSink(new DecrementEvent(1)) }>-</button>
+            </div>
+            <div>
+                <button onClick={ () => CounterBloc.eventSink(new DecrementEvent(1)) }>-</button>
             </div>
         </>
     )
