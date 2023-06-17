@@ -7,10 +7,10 @@ export default function Counter() {
     return (
         <>
             <Switch fallback={ <div>no State</div> }>
-                <Match when={ CounterBloc.stateGetter.status === CounterStatus.Added }>state: added</Match>
-                <Match when={ CounterBloc.stateGetter.status === CounterStatus.Substract }>state: substracted</Match>
+                <Match when={ CounterBloc.state.status === CounterStatus.Added }>state: added</Match>
+                <Match when={ CounterBloc.state.status === CounterStatus.Substract }>state: substracted</Match>
             </Switch>
-            <div>{ CounterBloc.stateGetter.counterValue }</div>
+            <div>{ CounterBloc.state.counterValue }</div>
 
             <div>
                 <button onClick={ () => CounterBloc.eventSink = new IncrementEvent(1) }>+</button>

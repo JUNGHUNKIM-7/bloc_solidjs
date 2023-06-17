@@ -5,7 +5,7 @@ import { $state } from "./state";
 export default class CounterBloc {
     private constructor() { }
 
-    static get stateGetter() {
+    static get state() {
         return $state()
     }
 
