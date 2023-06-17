@@ -1,14 +1,14 @@
-import { Match, Switch } from 'solid-js';
+import { Match, Switch } from 'solid-js'
 import CounterBloc, {
 	CounterStatus,
 	DecrementEvent,
 	IncrementEvent,
-} from '../bloc/counter/bloc';
-import ChildCounter from './ChildCounter';
-import AnotherCounter from './AnotherCounter';
+} from '../bloc/counter/bloc'
+import ChildCounter from './ChildCounter'
+import AnotherCounter from './AnotherCounter'
 
 export default function Counter() {
-	const counterBloc: CounterBloc = new CounterBloc();
+	const counterBloc: CounterBloc = new CounterBloc()
 
 	return (
 		<>
@@ -47,5 +47,5 @@ export default function Counter() {
 				</button>
 			</div>
 		</>
-	);
+	)
 }

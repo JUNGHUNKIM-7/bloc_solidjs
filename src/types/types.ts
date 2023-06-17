@@ -1,10 +1,10 @@
-import type { JSXElement } from 'solid-js';
+import type { JSXElement } from 'solid-js'
 
 export interface Wrapper {
-	children: JSXElement;
+	children: JSXElement
 }
 
 export interface TestProps extends Wrapper {
-	title: string;
-	age: number;
+	title: string
+	age: number
 }
