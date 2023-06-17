@@ -1,13 +1,17 @@
-import { $state, type CounterStatus } from "./bloc"
+import { $state, type CounterStatus } from './bloc';
 
 export class CounterState {
-    constructor(public status: CounterStatus, public counterValue: number) { }
+	constructor(public status: CounterStatus, public counterValue: number) {}
 
-    static copyWith(status?: CounterStatus, value?: number): CounterState {
-        return new CounterState(status ?? $state().status, value ?? $state().counterValue)
-    }
+	static copyWith(status?: CounterStatus, value?: number): CounterState {
+		return new CounterState(
+			status ?? $state().status,
+			value ?? $state().counterValue,
+		);
+	}
 
-    static equal(other: CounterState): boolean {
-        return other.counterValue === $state().counterValue && other.status === $state().status
-    }
+	static equal(other: CounterState): boolean {
+		return other.counterValue === $state().counterValue &&
+			other.status === $state().status;
+	}
 }
