@@ -10,7 +10,7 @@ export default function ChildCounter(props: ChildProps) {
 
     return (
         <div>
-            <div>this is another</div>
+            <div>this is child</div>
             <div>{ local.counterBloc.state.counterValue }</div>
         </div>
     )
