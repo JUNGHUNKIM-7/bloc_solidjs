@@ -1,4 +1,5 @@
-import { $state } from "./bloc"
+import { createSignal } from "solid-js"
+
 
 export enum CounterStatus {
     Initial,
@@ -17,3 +18,5 @@ export class CounterState {
         return other.counterValue === $state().counterValue && other.status === $state().status
     }
 }
+
+export const [$state, setState] = createSignal<CounterState>(new CounterState(CounterStatus.Initial, 0))

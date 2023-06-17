@@ -1,5 +1,4 @@
-import { setState, $state } from "./bloc"
-import { CounterState, CounterStatus } from "./state"
+import { $state, CounterState, CounterStatus, setState } from "./state"
 
 export class CounterEvent { }
 

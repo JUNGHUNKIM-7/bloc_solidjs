@@ -1,5 +1,5 @@
 import { Match, Switch } from "solid-js"
-import CounterBloc, { e } from "../bloc/counter/bloc"
+import CounterBloc from "../bloc/counter/bloc"
 import { DecrementEvent, IncrementEvent } from "../bloc/counter/event"
 import { CounterStatus } from "../bloc/counter/state"
 
@@ -13,11 +13,11 @@ export default function Counter() {
             <div>{ CounterBloc.stateGetter.counterValue }</div>
 
             <div>
-                <button onClick={ () => e(new IncrementEvent(1)) }>+</button>
+                <button onClick={ () => CounterBloc.eventSink = new IncrementEvent(1) }>+</button>
             </div>
 
             <div>
-                <button onClick={ () => e(new DecrementEvent(1)) }>-</button>
+                <button onClick={ () => CounterBloc.eventSink = new DecrementEvent(1) }>-</button>
             </div>
         </>
     )
