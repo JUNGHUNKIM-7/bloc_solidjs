@@ -1,3 +1,33 @@
+# signal
+- run update
+```ts
+// {} 객체업데이트 -> {equal: false} -> 일반적으로 이전객체와 동일개체로 보기때문에 업데이트 되지 않음
+const [object, setObject] = createSignal({ count: 0 }, { equals: false });
+
+setObject((current) => {
+  current.count += 1;
+  current.updated = new Date();
+  return current;
+});
+
+
+-- Conditional update!
+const [myString, setMyString] = createSignal("string", {
+  equals: (newVal, oldVal) => newVal.length === oldVal.length,
+});
+
+```
+
+# effect memorize
+```ts
+createEffect((prev) => {
+  const sum = a() + b();
+  if (sum !== prev) console.log("sum changed to", sum);
+
+  return sum; //momorize
+}, 0);
+```
+
 ```ts
 export interface Wrapper {
     children: JSXElement

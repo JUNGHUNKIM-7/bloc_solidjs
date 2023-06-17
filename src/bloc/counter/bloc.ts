@@ -9,6 +9,12 @@ export enum CounterStatus {
 
 export const [$state, setState] = createSignal<CounterState>(
 	new CounterState(CounterStatus.Initial, 0),
+	{
+		equals(prev, next) {
+			return prev.counterValue === next.counterValue &&
+				prev.status === next.status
+		},
+	},
 )
 
 class CounterEvent {}
@@ -17,11 +23,11 @@ export class IncrementEvent implements CounterEvent {
 	constructor(private counterValue: number) {}
 
 	increment() {
-		setState(
+		setState((prev) =>
 			CounterState.copyWith(
 				CounterStatus.Added,
-				$state().counterValue + this.counterValue,
-			),
+				prev.counterValue + this.counterValue,
+			)
 		)
 	}
 }
@@ -30,11 +36,11 @@ export class DecrementEvent implements CounterEvent {
 	constructor(private counterValue: number) {}
 
 	decrement() {
-		setState(
+		setState((prev) =>
 			CounterState.copyWith(
 				CounterStatus.Substract,
-				$state().counterValue - this.counterValue,
-			),
+				prev.counterValue - this.counterValue,
+			)
 		)
 	}
 }

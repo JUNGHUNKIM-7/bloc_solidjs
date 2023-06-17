@@ -9,9 +9,4 @@ export class CounterState {
 			value ?? $state().counterValue,
 		)
 	}
-
-	static equal(other: CounterState): boolean {
-		return other.counterValue === $state().counterValue &&
-			other.status === $state().status
-	}
 }
