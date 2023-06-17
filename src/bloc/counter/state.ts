@@ -1,11 +1,4 @@
-import { createSignal } from "solid-js"
-
-
-export enum CounterStatus {
-    Initial,
-    Added,
-    Substract
-}
+import { $state, type CounterStatus } from "./bloc"
 
 export class CounterState {
     constructor(public status: CounterStatus, public counterValue: number) { }
@@ -18,5 +11,3 @@ export class CounterState {
         return other.counterValue === $state().counterValue && other.status === $state().status
     }
 }
-
-export const [$state, setState] = createSignal<CounterState>(new CounterState(CounterStatus.Initial, 0))

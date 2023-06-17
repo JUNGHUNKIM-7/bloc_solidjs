@@ -1,23 +1,23 @@
 import { Match, Switch } from "solid-js"
-import CounterBloc from "../bloc/counter/bloc"
-import { DecrementEvent, IncrementEvent } from "../bloc/counter/event"
-import { CounterStatus } from "../bloc/counter/state"
+import CounterBloc, { CounterStatus, DecrementEvent, IncrementEvent } from "../bloc/counter/bloc"
 
 export default function Counter() {
+    const counterBloc: CounterBloc = new CounterBloc()
+
     return (
         <>
             <Switch fallback={ <div>no State</div> }>
-                <Match when={ CounterBloc.state.status === CounterStatus.Added }>state: added</Match>
-                <Match when={ CounterBloc.state.status === CounterStatus.Substract }>state: substracted</Match>
+                <Match when={ counterBloc.state.status === CounterStatus.Added }>state: added</Match>
+                <Match when={ counterBloc.state.status === CounterStatus.Substract }>state: substracted</Match>
             </Switch>
-            <div>{ CounterBloc.state.counterValue }</div>
+            <div>{ counterBloc.state.counterValue }</div>
 
             <div>
-                <button onClick={ () => CounterBloc.eventSink = new IncrementEvent(1) }>+</button>
+                <button onClick={ () => counterBloc.eventSink = new IncrementEvent(1) }>+</button>
             </div>
 
             <div>
-                <button onClick={ () => CounterBloc.eventSink = new DecrementEvent(1) }>-</button>
+                <button onClick={ () => counterBloc.eventSink = new DecrementEvent(1) }>-</button>
             </div>
         </>
     )
