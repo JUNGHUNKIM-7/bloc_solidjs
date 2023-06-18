@@ -1,8 +1,8 @@
 import { splitProps } from 'solid-js'
-import type CounterBloc from '../bloc/counter/bloc'
+import type Bloc from '../bloc/bloc'
 
 interface ChildProps {
-	counterBloc: CounterBloc
+	counterBloc: Bloc
 }
 
 export default function ChildCounter(props: ChildProps) {
@@ -11,7 +11,7 @@ export default function ChildCounter(props: ChildProps) {
 	return (
 		<div>
 			<div>this is child</div>
-			<div>{local.counterBloc.state.counterValue}</div>
+			<div>{local.counterBloc.counterState.counterValue}</div>
 		</div>
 	)
 }

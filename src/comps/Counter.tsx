@@ -1,38 +1,34 @@
-import { Match, Switch, createSignal } from 'solid-js'
-import CounterBloc, {
-	CounterStatus,
-	DecrementEvent,
-	IncrementEvent,
-} from '../bloc/counter/bloc'
+import { Match, Switch } from 'solid-js'
 import ChildCounter from './ChildCounter'
 import AnotherCounter from './AnotherCounter'
+import { bloc } from '../bloc/bloc'
+import { CounterStatus } from '../bloc/counter/state'
+import { DecrementEvent, IncrementEvent } from '../bloc/counter/event'
 
 export default function Counter() {
-	const counterBloc: CounterBloc = new CounterBloc()
-
 	return (
 		<>
 			<Switch fallback={<div>no State</div>}>
-				<Match when={counterBloc.state.status === CounterStatus.Added}>
+				<Match when={bloc.counterState.status === CounterStatus.Added}>
 					state: added
 				</Match>
 				<Match
-					when={counterBloc.state.status === CounterStatus.Substract}
+					when={bloc.counterState.status === CounterStatus.Substract}
 				>
 					state: substracted
 				</Match>
 			</Switch>
 
-			<div>{counterBloc.state.counterValue}</div>
+			<div>{bloc.counterState.counterValue}</div>
 
-			<ChildCounter counterBloc={counterBloc} />
+			<ChildCounter counterBloc={bloc} />
 
 			<AnotherCounter />
 
 			<div>
 				<button
 					onClick={() =>
-						counterBloc.eventSink = new IncrementEvent(1)}
+						bloc.counterEventSink = new IncrementEvent(1)}
 				>
 					+
 				</button>
@@ -41,7 +37,7 @@ export default function Counter() {
 			<div>
 				<button
 					onClick={() =>
-						counterBloc.eventSink = new DecrementEvent(1)}
+						bloc.counterEventSink = new DecrementEvent(1)}
 				>
 					-
 				</button>

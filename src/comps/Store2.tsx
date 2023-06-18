@@ -11,7 +11,7 @@ interface SubCategory {
 
 const [category, setCategory] = createStore<Category>({} as Category)
 
-export default function MoreComp() {
+export default function Store2() {
 	let inputRef!: HTMLInputElement
 	let inputRef2!: HTMLInputElement
 
