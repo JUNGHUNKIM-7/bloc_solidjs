@@ -136,7 +136,7 @@ setState('todos', {}, todo => ({ marked: true, completed: !todo.completed }))
 
 const [category, setCategory] = createStore<Category>({} as Category)
 
-export default function MoreComp() {
+export default function Store2() {
 	let inputRef!: HTMLInputElement
 
 	function updateSub() {
@@ -145,7 +145,12 @@ export default function MoreComp() {
 
 	function insertTag(s: string) {
 		setCategory('tags', (prev) => [...prev ?? [], s])
-		setCategory(produce((category) => (category.tags ?? []).push(s)))
+
+    //update one by one
+		setCategory(produce((category) => {
+			category.sub.name = 'hi'
+			;(category.tags ?? []).push(s)
+		}))
 	}
 
 	return (

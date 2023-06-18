@@ -20,7 +20,10 @@ export default function MoreComp() {
 
 	function insertTag(s: string) {
 		setCategory('tags', (prev) => [...prev ?? [], s])
-		setCategory(produce((category) => (category.tags ?? []).push(s)))
+		setCategory(produce((category) => {
+			category.sub.name = 'hi'
+			;(category.tags ?? []).push(s)
+		}))
 	}
 
 	return (
