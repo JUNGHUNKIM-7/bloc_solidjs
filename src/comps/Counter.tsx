@@ -1,4 +1,4 @@
-import { Match, Switch } from 'solid-js'
+import { Match, Switch, createSignal } from 'solid-js'
 import CounterBloc, {
 	CounterStatus,
 	DecrementEvent,

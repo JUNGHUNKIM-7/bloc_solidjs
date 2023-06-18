@@ -1,9 +1,13 @@
 ---
 import Counter from "../comps/Counter";
+import Store from "../comps/Store";
+import Store2 from "../comps/Store2";
 ---
 
 <div>
     <Counter client:load />
+    <Store client:load />
+    <Store2 client:idle />
 </div>
 
 <div class="hero min-h-screen bg-base-200">
@@ -12,6 +16,7 @@ import Counter from "../comps/Counter";
             src="/images/stock/photo-1635805737707-575885ab0820.jpg"
             class="max-w-sm rounded-lg shadow-2xl"
         /> -->
+
         <div>
             <h2 class="text-5xl font-bold">Box Office News!</h2>
             <p class="py-6">

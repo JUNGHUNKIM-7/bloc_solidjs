@@ -1,7 +1,7 @@
+
 # signal
 - run update
 ```ts
-// {} 객체업데이트 -> {equal: false} -> 일반적으로 이전객체와 동일개체로 보기때문에 업데이트 되지 않음
 const [object, setObject] = createSignal({ count: 0 }, { equals: false });
 
 setObject((current) => {
@@ -18,14 +18,171 @@ const [myString, setMyString] = createSignal("string", {
 
 ```
 
-# effect memorize
+# store(when [] or {}) update
+- no key(list)
+```ts
+setTodo(0, "key", (value) => !value) // by index
+or
+setTodo((todo)=> todo.id === id, "key", (value) => !value) // by cond
+or
+setTodo([...todo, {id: 1, title: "title"}]) //override
+```
+- no key(object)
+```ts
+변경 함수는 이전 상태를 받아서 새 상태나 값을 반환하는 함수의 형태를 취할 수 있습니다. 객체는 항상 얕게 머지됩니다. 스토어에서 값을 삭제하려면 값을 undefined로 설정하세요.
+
+//setState((prev) => {...prev, key: value}) // use prev object -> make new object (new key is optional)
+//setState({all: value1, of: value2}) // make new object (new key is optional)
+//default value is undefined.
+
+//<Show when={!$store.name || $store.name?.length < 3}>
+//...
+//</Show>
+
+const [state, setState] = createStore({
+  firstName: "John",
+  lastName: "Miller",
+});
+
+setState({ firstName: "Johnny", middleName: "Lee" });
+// ({ firstName: 'Johnny', middleName: 'Lee', lastName: 'Miller' })
+
+setState((state) => ({ preferredName: state.firstName, lastName: "Milner" }));
+// ({ firstName: 'Johnny', preferredName: 'Johnny', middleName: 'Lee', lastName: 'Milner' })
+```
+
+- has key(object)
+- list - INDEX or RANGE parameter
+- if not, (prev) => { ...prev } // (prev) => [...prev, 1, 2] // (prev) => prev + 1 ..
+```ts
+const [state, setState] = createStore({
+  counter: 2,
+  list: [
+    { id: 23, title: 'Birds' }
+    { id: 27, title: 'Fish' }
+  ]
+});
+
+
+// setState(key, (prev) => ..);
+setState('counter', c => c + 1);
+setState('list', l => [...l, {id: 43, title: 'Marsupials'}]); //or l.push({id: 43, title: 'Marsupials'}) ?
+
+// key(list), INDEX or RANGE, key, set value
+setState('list', 2, 'read', true);
+
+// {
+//   counter: 3,
+//   list: [
+//     { id: 23, title: 'Birds' }
+//     { id: 27, title: 'Fish' }
+//     { id: 43, title: 'Marsupials', read: true }
+//   ]
+// }
+```
+
+- LIST PROP: INDEX/RANGE/COND/ALL
+```tsx
+const [state, setState] = createStore({
+  todos: [
+    { task: 'Finish work', completed: false }
+    { task: 'Go grocery shopping', completed: false }
+    { task: 'Make dinner', completed: false }
+  ]
+});
+
+
+
+// key(list), INDEX or RANGE, key, set value
+setState('todos', [0, 2], 'completed', true);
+// {
+//   todos: [
+//     { task: 'Finish work', completed: true }
+//     { task: 'Go grocery shopping', completed: false }
+//     { task: 'Make dinner', completed: true }
+//   ]
+// }
+
+// key(list), INDEX or RANGE, key, set value
+setState('todos', { from: 0, to: 1 }, 'completed', c => !c);
+// {
+//   todos: [
+//     { task: 'Finish work', completed: false }
+//     { task: 'Go grocery shopping', completed: true }
+//     { task: 'Make dinner', completed: true }
+//   ]
+// }
+
+// key(list), COND, key, set value
+setState('todos', todo => todo.completed, 'task', t => t + '!')
+// {
+//   todos: [
+//     { task: 'Finish work', completed: false }
+//     { task: 'Go grocery shopping!', completed: true }
+//     { task: 'Make dinner!', completed: true }
+//   ]
+// }
+
+
+// key(list), ALL, key, set value
+setState('todos', {}, todo => ({ marked: true, completed: !todo.completed }))
+// {
+//   todos: [
+//     { task: 'Finish work', completed: true, marked: true }
+//     { task: 'Go grocery shopping!', completed: false, marked: true }
+//     { task: 'Make dinner!', completed: false, marked: true }
+//   ]
+// }
+
+const [category, setCategory] = createStore<Category>({} as Category)
+
+export default function MoreComp() {
+	let inputRef!: HTMLInputElement
+
+	function updateSub() {
+		setCategory('sub', (prev) => ({ ...prev, name: inputRef.value }))
+	}
+
+	function insertTag(s: string) {
+		setCategory('tags', (prev) => [...prev ?? [], s])
+		setCategory(produce((category) => (category.tags ?? []).push(s)))
+	}
+
+	return (
+		<div>
+			<input ref={inputRef} type='text' name='sub' id='sub' />
+			<button onClick={updateSub}>update subcategory</button>
+			<input type='text' name='tag' id='tag' />
+			<button onClick={() => insertTag('hi')}>insert tag</button>
+			<div>
+				{JSON.stringify(category, null, 2)}
+			</div>
+		</div>
+	)
+}
+```
+
+# effect memorize with return keyword
 ```ts
 createEffect((prev) => {
   const sum = a() + b();
   if (sum !== prev) console.log("sum changed to", sum);
 
   return sum; //momorize
-}, 0);
+}, 0); //value?
+```
+
+# update with signal with MEMO
+- update시에 effect에 넣어 사용주의(무한실행)
+
+```ts
+const user = createMemo(() => searchForUser(username()));
+
+Your email is <code>{user()?.email}</code>
+
+만일 user 정의를 () => searchForUser(username()) 일반 함수로 교체하면, searchForUser는 두 번(각 리스트 아이템 업데이트시마다) 호출됩니다.
+
+const sum = createMemo((prev) => input() + prev, 0); //value, like reduce()
 ```
 
 ```ts
@@ -37,8 +194,6 @@ export interface TestProps extends Wrapper {
     title: string
     age: number
 }
-
-```
 ```
 mutable list- for. i() - index subscribed list.
 
@@ -101,32 +256,21 @@ export default function Greeting(props) {
 }
 ```
 
-# effect vs createRenderEffect(first + reactive)
+# CreateRenderEffect (Run with MicroStack)
 ```tsx
-createEffect(() => {
-    if (loading()) {
-        setTimeout(() => {
-            setLoading(false)
-        }, 3000)
-    }
-})
-
-createMemo(() => (counter()))
-
-vs
-
 createRenderEffect(() => {
   console.log(counter())
 })
 
+//INGORE
 setCounter(1)
 setCounter(2)
 
-//queueMicrotask 실행 시 run
+//START RUN
 queueMicrotask(() => {
   // 이제 `count = 2` 출력
   console.log("microtask");
-  setCount(3);  // 즉시 `count = 3` 출력
+  setCounter(3);  // 즉시 `count = 3` 출력
   console.log("goodbye");
 });
 ```
@@ -232,31 +376,18 @@ let htmlElem
 <tag ref={htmlElem}>
 ```
 
-# component nesting (children) - useContext replacement
-- parent hold state,
-- access state in children
-- children
-
-children(() => props.children)
+# Wrapper With <For></For>
 ```tsx
-export default function Wrappper(prop: { children: ChildNode }) {
-    const c = children(() => prop.children)
-    return (
-        <div>
-            wrapper node
-            <div>{ c() }</div>
-        </div>
-    )
+<ColoredList color={color()}>
+  <For each={["Most", "Interesting", "Thing"]}>{item => <div>{item}</div>}</For>
+</ColoredList>
+
+export default function ColoredList(props) {
+  const c = children(() => props.children);
+  return <>{c()}</>
 }
 
-export default function Child() {
-    return (
-        <div>child</div>
-    )
-}
-
-- 자식 컴포넌트 상태 변화(share)
-- updator :
+//set childrens
 createEffect(() => c().forEach(item => item.style.color = props.color))
 ```
 
@@ -355,4 +486,51 @@ revealOrder="forward"(정방향)/"backward"(역방향) / "together"(join all)
   <input type="text" name="name" />
   <button formaction="" aria-busy={ loading() }>submit button</button>
 </form>
+```
+
+ref, onInput
+```tsx
+interface Forms {
+	name: string
+	first: string
+	last: string
+}
+
+const [form, setForm] = createStore({} as Forms)
+
+export default function Store() {
+	let inputRef!: HTMLInputElement
+	let inputRef2!: HTMLInputElement
+	let inputRef3!: HTMLInputElement
+
+	const [$store, setStore] = createStore<Forms>({} as Forms)
+
+  <input
+    ref={inputRef}
+    type='text'
+    id='name'
+    value={$store.name ?? ''}
+    onInput={(e) => {
+      setStore(
+        (prev) => ({
+          ...prev,
+          name: e.target.value,
+        }),
+      )
+    }}
+  />
+
+  <button
+    onClick={(e) => {
+      e.preventDefault()
+      setForm({
+        first: inputRef2.value,
+        last: inputRef3.value,
+        name: inputRef.value,
+      })
+    }}
+  >
+    added
+  </button>
+
 ```
