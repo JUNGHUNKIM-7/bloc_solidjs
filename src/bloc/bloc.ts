@@ -2,6 +2,9 @@ import { createSignal } from 'solid-js'
 import CounterState, { CounterStatus } from './counter/state'
 import CounterEvent, { DecrementEvent, IncrementEvent } from './counter/event'
 
+//simple event no need to make bloc(use signal/store)
+//complex behave like event with repositories, configs, use bloc
+
 //all signals, store...
 export const [counter, setCounter] = createSignal<CounterState>(
 	new CounterState(CounterStatus.Initial, 0),
